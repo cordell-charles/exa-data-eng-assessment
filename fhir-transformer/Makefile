@@ -18,3 +18,9 @@ lint: install-requirements
 
 python-run:
 	py ./src/utils.py
+
+docker-build:
+	docker build -t fhir-transformer .
+
+docker-run:
+	docker run -v /fhir-transformer/data fhir-transformer
