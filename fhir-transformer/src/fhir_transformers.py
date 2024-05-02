@@ -7,6 +7,7 @@ from fhir.resources.patient import Patient
 
 # custom module imports
 from utils import read_fhir_messages
+from database import create_tables, insert_data
 
 
 def transform_fhir_messages(fhir_messages):
@@ -61,3 +62,6 @@ if __name__ == "__main__":
     patient_df, observation_df = transform_fhir_messages(fhir_messages)
     print(patient_df)
     print(observation_df)
+
+    create_tables()
+    insert_data(patient_df, observation_df)
