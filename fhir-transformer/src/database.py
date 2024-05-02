@@ -20,6 +20,7 @@ def create_tables():
         user=POSTGRES_USER,
         password=POSTGRES_PASSWORD,
         port=POSTGRES_PORT,
+        database=POSTGRES_DB
     )
     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
