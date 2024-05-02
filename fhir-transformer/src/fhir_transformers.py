@@ -23,10 +23,22 @@ def transform_fhir_messages(fhir_messages):
 
                 if resource_type == "Patient":
                     patient = Patient.parse_obj(resource)
+                    name_components = patient.name[0]
+                    full_name = " ".join(
+                        [
+                            (
+                                " ".join(name_components.prefix)
+                                if name_components.prefix
+                                else ""
+                            ),
+                            " ".join(name_components.given),
+                            name_components.family,
+                        ]
+                    )
                     patient_data.append(
                         {
                             "patient_id": patient.id,
-                            "name": patient.name[0].text,
+                            "name": full_name,
                             "gender": patient.gender,
                             "birth_date": patient.birthDate.isoformat(),
                         }
