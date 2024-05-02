@@ -1,4 +1,4 @@
-### Main FHIR Transformer script ###
+# Main FHIR Transformer script #
 
 # Library imports
 import pandas as pd
