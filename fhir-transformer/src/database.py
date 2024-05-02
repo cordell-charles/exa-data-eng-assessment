@@ -24,11 +24,12 @@ def create_tables():
     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
     cursor = connection.cursor()
-    cursor.execute(
-        """
-        CREATE DATABASE IF NOT EXISTS fhir_transformer;
-    """
-    )
+    cursor.execute(f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{POSTGRES_DB}'")
+    exists = cursor.fetchone()
+
+    # If the database doesn't exist, create it
+    if not exists:
+        cursor.execute(f"CREATE DATABASE {POSTGRES_DB}")
     connection.close()
 
     connection = psycopg2.connect(
