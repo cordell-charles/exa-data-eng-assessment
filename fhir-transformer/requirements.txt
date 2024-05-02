@@ -1,3 +1,6 @@
 isort
 black
 flake8
+fhir.resources==7.1.0
+pandas==2.2.2
+psycopg2-binary

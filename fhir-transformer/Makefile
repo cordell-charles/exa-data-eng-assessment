@@ -15,3 +15,6 @@ lint: install-requirements
 	flake8 $(CODE_DIRS)
 	isort --check-only $(CODE_DIRS)
 	black --check $(CODE_DIRS)
+
+python-run:
+	py ./src/utils.py
