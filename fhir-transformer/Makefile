@@ -24,3 +24,8 @@ docker-build:
 
 docker-run:
 	docker run -v /fhir-transformer/data fhir-transformer
+
+docker-run-postgres:
+	docker run --name postgres -e POSTGRES_PASSWORD=fhir_password -d -p 5432:5432 postgres
+	docker build -t fhir-transformer . 
+	docker run --rm --link postgres -e POSTGRES_PASSWORD=fhir_password fhir-transformer 

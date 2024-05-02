@@ -24,7 +24,9 @@ def create_tables():
     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
     cursor = connection.cursor()
-    cursor.execute(f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{POSTGRES_DB}'")
+    cursor.execute(
+        f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{POSTGRES_DB}'"
+    )
     exists = cursor.fetchone()
 
     # If the database doesn't exist, create it

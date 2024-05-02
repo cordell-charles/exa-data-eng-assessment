@@ -5,9 +5,10 @@ import pandas as pd
 from fhir.resources.observation import Observation
 from fhir.resources.patient import Patient
 
+from database import create_tables, insert_data
+
 # custom module imports
 from utils import read_fhir_messages
-from database import create_tables, insert_data
 
 
 def transform_fhir_messages(fhir_messages):
@@ -35,7 +36,7 @@ def transform_fhir_messages(fhir_messages):
                     observation = Observation.parse_obj(resource)
                     observation_data.append(
                         {
-                            "patient_id": observation.subject.reference,
+                            "patient_id": observation.subject.reference.split(":")[-1],
                             "observation_code": observation.code.coding[0].code,
                             "observation_value": (
                                 observation.valueQuantity.value
