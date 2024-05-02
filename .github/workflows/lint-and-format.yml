@@ -26,5 +26,6 @@ jobs:
 
     - name: Lint and format checks
       run: |
+        cd fhir-transformer
         make format
         make lint
