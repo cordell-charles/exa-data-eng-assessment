@@ -46,15 +46,6 @@ lint: install-requirements
 	black --check $(CODE_DIRS)
 
 
-docker-build: check-required-vars
-	docker build -t fhir-transformer .
-
-docker-run: check-required-vars
-	docker rm -f $(POSTGRES_HOST)
-	docker run --name postgres -e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) -d -p 5432:5432 postgres
-	docker build -t fhir-transformer . 
-	docker run --rm --link postgres -e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) fhir-transformer 
-
 build-and-run: check-required-vars
 	docker-compose down
 	docker-compose build

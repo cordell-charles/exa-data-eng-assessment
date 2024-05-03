@@ -1,0 +1,4 @@
+__pycache__
+emis-venv
+.DS_Store
+.env

@@ -7,25 +7,26 @@ on:
     branches: [main]
 
 jobs:
-
   lint-and-format:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.9
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 black isort
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Lint and format checks
-      run: |
-        cd fhir-transformer
-        make format
-        make lint
+      - name: Run linting and formatting
+        env:
+          ENV_FILE: ./fhir-transformer/.env
+        run: |
+          cd fhir-transformer
+          make lint
+          make format
