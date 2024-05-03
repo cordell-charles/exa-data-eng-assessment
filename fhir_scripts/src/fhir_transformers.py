@@ -12,6 +12,9 @@ from utils import read_fhir_messages
 
 
 def transform_fhir_messages(fhir_messages):
+    """
+    Transform FHIR messages into tabular format (DataFrames).
+    """
     patient_data = []
     observation_data = []
 
@@ -22,6 +25,7 @@ def transform_fhir_messages(fhir_messages):
                 resource_type = resource["resourceType"]
 
                 if resource_type == "Patient":
+                    # Parse Patient resource and extract relevant data
                     patient = Patient.parse_obj(resource)
                     name_components = patient.name[0]
                     full_name = " ".join(
@@ -45,6 +49,7 @@ def transform_fhir_messages(fhir_messages):
                     )
 
                 elif resource_type == "Observation":
+                    # Parse Observation resource and extract relevant data
                     observation = Observation.parse_obj(resource)
                     observation_data.append(
                         {
@@ -64,6 +69,7 @@ def transform_fhir_messages(fhir_messages):
                         }
                     )
 
+    # Create DataFrames and supply with extracted data lists
     patient_df = pd.DataFrame(patient_data)
     observation_df = pd.DataFrame(observation_data)
 
@@ -71,10 +77,14 @@ def transform_fhir_messages(fhir_messages):
 
 
 if __name__ == "__main__":
+    # Read FHIR messages from the data directory
     fhir_messages = read_fhir_messages("data/")
+
+    # Transform FHIR messages into DataFrames
     patient_df, observation_df = transform_fhir_messages(fhir_messages)
     print(patient_df)
     print(observation_df)
 
+    # Create tables and insert data from the DataFrames into postgres tables
     create_tables()
     insert_data(patient_df, observation_df)

@@ -15,6 +15,15 @@ from config import (
 
 
 def create_tables():
+    """
+    Create the 'patients' and 'observations' tables in the PostgreSQL db.
+
+    Function first checks if the db exists. If not, a new db is created
+    Once created, a 'patients' and 'observations' tables are
+    created with the specified schema.
+    """
+
+    # Connect to the PostgreSQL server
     connection = psycopg2.connect(
         host=POSTGRES_HOST,
         user=POSTGRES_USER,
@@ -25,6 +34,8 @@ def create_tables():
     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
     cursor = connection.cursor()
+
+    # Check if the database exists
     cursor.execute(
         f"SELECT 1 FROM pg_catalog.pg_database WHERE datname = '{POSTGRES_DB}'"
     )
@@ -35,6 +46,7 @@ def create_tables():
         cursor.execute(f"CREATE DATABASE {POSTGRES_DB}")
     connection.close()
 
+    # Connect to newly created database
     connection = psycopg2.connect(
         host=POSTGRES_HOST,
         database=POSTGRES_DB,
@@ -43,6 +55,7 @@ def create_tables():
         port=POSTGRES_PORT,
     )
 
+    # Create the 'patients' table
     cursor = connection.cursor()
     cursor.execute(
         """
@@ -55,6 +68,7 @@ def create_tables():
     """
     )
 
+    # Create the 'observations' table
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS observations (
@@ -73,6 +87,12 @@ def create_tables():
 
 
 def insert_data(patient_df, observation_df):
+    """
+    Function takes in and iterates over the patient_df and observation_df DataFrames
+    where it inserts the data into the 'patients' and 'observations' tables, respectively.
+    """
+
+    # Connect to the PostgreSQL database
     connection = psycopg2.connect(
         host=POSTGRES_HOST,
         database=POSTGRES_DB,
@@ -82,6 +102,7 @@ def insert_data(patient_df, observation_df):
     )
     cursor = connection.cursor()
 
+    # Insert patient data
     for _, row in patient_df.iterrows():
         cursor.execute(
             """
@@ -92,6 +113,7 @@ def insert_data(patient_df, observation_df):
             (row["patient_id"], row["name"], row["gender"], row["birth_date"]),
         )
 
+    # Insert observation data
     for _, row in observation_df.iterrows():
         cursor.execute(
             """

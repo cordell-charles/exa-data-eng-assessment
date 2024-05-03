@@ -14,6 +14,7 @@ PYTHON = python3
 PIP = pip3
 CODE_DIRS = src tests
 
+# install dependencies for project to run
 install-requirements:
 	$(PIP) install -r requirements.txt
 
@@ -24,6 +25,7 @@ init-repo:
 	touch $@
 
 
+# Checks to ensure the needed environment variables are set before running
 check-required-vars:
 	missing_vars=""
 	for var in $(REQUIRED_VARS); do \
@@ -36,16 +38,18 @@ check-required-vars:
         exit 1; \
     fi	
 
-
+# Used for formatting python scripts ensuring neat layout
 format: install-requirements
 	isort $(CODE_DIRS)
 	black $(CODE_DIRS)
 
+# Checks to ensure formatting has been used
 lint: install-requirements
 	flake8 $(CODE_DIRS)
 	black --check $(CODE_DIRS)
 
 
+# Run project using docker-compose
 build-and-run: check-required-vars
 	docker-compose down
 	docker-compose build
