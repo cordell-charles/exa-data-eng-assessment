@@ -1,14 +1,14 @@
-### Purpose of file
+# Purpose of file
 
 Purpose of solution.md is to detail any important information to the task and thus solution in order for observers/readers to understand intent and thought process which cannot always be explained through the code.
 
 
-###  Project structure / Documentation 
+#  Project structure / Documentation 
 
 The final result for FHIR message transformation containers multple directories all encapsulated under the fhir_scripts directory. Below are sub headings which will go into more details on the purpose of each directory along with the what each code file does.
 
 
-# fhir_scripts/src
+### fhir_scripts/src
 The src directories purpose is to house all the code scripts that executes the FHIR transformation, reading in each patients json file from the data directory, transforming into FHIR messages and adding each patient into a tabular format using postgressql.
 
 - **config.py** - This script is the initial set up which stores credentials for connecting to fhir postgres db 
@@ -16,7 +16,7 @@ The src directories purpose is to house all the code scripts that executes the F
 - **fhir_transformers.py** - Script is responsibile for transforming FHIR messages into a tabular format. It involves taking the messages as inputs and transforming them into two separate dataframes. Dataframes were used for formatting the data into columns that will be easier to add into postgres table without having to do further formatting. Once created, the db tables are created and data inserted.
 - **database.py** - This script is responsible for creating and managing the database tables for storing patient and observation data through two main functions `create_tables` & `insert_data`
 
-# Additional resources
+### Additional resources
 
 Once the main task was completed, additional work was done to not only aid the developer experience, but to also aid the reviewer in terms of executing the scripts. The purpose of aiding the user is to be able to allow even those with minimal technical experience, the ability to execute and view the database tables easily. Instructions on how to run the project is below but the additional files and resources used for this purpose was:
 
@@ -27,7 +27,7 @@ Once the main task was completed, additional work was done to not only aid the d
 flake8 files purpose is to add addtional config for 
 
 
-### How to execute
+# How to execute
 
 After cloning the repo to local directory, additional implementations have been added to allow the reviewer minimal effort in order to test and view message DB. The following steps should be completed to successfully test
 
